@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="es-GT">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Catálogo – Detalles Eternos GT</title>
+<meta name="description" content="Catálogo de Detalles Eternos GT: dulces mexicanos, café, belleza, carteras, limpieza y canastas de regalo en quetzales.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,800&family=Nunito+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   DISEÑO · PANTALLA 2: CATÁLOGO
+   Estilo aprobado: Fiesta Artesanal.
+   Maqueta estática: el panel de filtros en celular se abre con
+   el enlace "#filtros" (solo CSS, sin JavaScript).
+   ============================================================ */
+:root {
+  --crema: #FFF8F0;
+  --blanco: #FFFFFF;
+  --rosa: #C2185B;
+  --rosa-osc: #9E1249;
+  --rosa-claro: #FBE7EF;
+  --verde: #0B6E4F;
+  --verde-claro: #E7F3EE;
+  --maiz: #F2B705;
+  --maiz-claro: #FDF1D0;
+  --anil: #2B3A8C;
+  --anil-claro: #E8EBF7;
+  --cafe: #6B3A1F;
+  --tinta: #2A1E17;
+  --gris: #6B5E57;
+  --linea: #EADFD3;
+  --ambar-txt: #8A4B00;
+
+  --font-titulo: 'Fraunces', Georgia, serif;
+  --font-texto: 'Nunito Sans', system-ui, sans-serif;
+  --radio: 16px;
+  --alto-barra-inferior: 64px;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: var(--font-texto); color: var(--tinta); background: var(--crema); line-height: 1.55; padding-bottom: var(--alto-barra-inferior); }
+a { color: inherit; }
+button, input, select { font: inherit; color: inherit; }
+ul { list-style: none; }
+fieldset { border: 0; }
+.contenedor { width: min(1180px, 100% - 32px); margin-inline: auto; }
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.saltar { position: absolute; left: -999px; top: 0; background: var(--anil); color: #fff; padding: .6rem 1rem; z-index: 99; }
+.saltar:focus { left: 1rem; top: 1rem; }
+:focus-visible { outline: 3px solid var(--anil); outline-offset: 2px; }
+.ico { width: 24px; height: 24px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; flex-shrink: 0; }
+
+/* ---------- Botones ---------- */
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 48px; padding: 0 22px; border-radius: 999px; font-weight: 800; text-decoration: none; border: 2px solid transparent; cursor: pointer; }
+.btn-primario { background: var(--rosa); color: #fff; }
+.btn-primario:hover { background: var(--rosa-osc); }
+.btn-secundario { background: var(--blanco); color: var(--verde); border-color: var(--verde); }
+.btn-secundario:hover { background: var(--verde-claro); }
+.btn-texto { background: none; border: 0; color: var(--anil); font-weight: 800; text-decoration: underline; cursor: pointer; min-height: 44px; }
+
+/* ---------- Barra de envío y cabecera (igual que Inicio) ---------- */
+.barra-envio { background: var(--verde); color: #fff; font-size: .82rem; font-weight: 700; text-align: center; padding: .5rem 1rem; }
+.cabecera { background: var(--blanco); border-bottom: 1px solid var(--linea); position: sticky; top: 0; z-index: 30; }
+.cabecera .contenedor { display: flex; align-items: center; flex-wrap: wrap; gap: 10px 12px; padding-block: 10px 12px; }
+.logo { flex: 1 1 0; min-width: 0; display: flex; align-items: center; gap: 10px; text-decoration: none; }
+.logo-marca { width: 44px; height: 44px; flex-shrink: 0; border: 2px dashed var(--rosa); border-radius: 50%; display: grid; place-items: center; font-size: .56rem; font-weight: 800; color: var(--rosa); }
+.logo-nombre { font-family: var(--font-titulo); font-weight: 800; font-size: 1.12rem; line-height: 1.1; }
+.logo-nombre small { display: block; font-family: var(--font-texto); font-size: .64rem; font-weight: 800; color: var(--rosa); letter-spacing: .14em; text-transform: uppercase; }
+.acciones { display: flex; gap: 6px; order: 2; }
+.btn-icono { width: 44px; height: 44px; border-radius: 50%; border: 1px solid var(--linea); background: var(--blanco); display: grid; place-items: center; position: relative; color: var(--tinta); text-decoration: none; }
+.btn-icono:hover { border-color: var(--rosa); }
+.contador { position: absolute; top: -4px; right: -4px; background: var(--rosa); color: #fff; font-size: .7rem; font-weight: 800; min-width: 20px; height: 20px; border-radius: 10px; display: grid; place-items: center; padding: 0 5px; }
+.solo-escritorio { display: none; }
+.buscador { order: 3; flex: 1 1 100%; display: flex; align-items: center; gap: 8px; background: var(--crema); border: 1px solid var(--linea); border-radius: 999px; padding: 0 6px 0 16px; color: var(--gris); }
+.buscador input { border: 0; background: transparent; padding: .7rem 0; width: 100%; min-width: 0; }
+.buscador input::placeholder { color: var(--gris); }
+.buscador input:focus { outline: none; }
+.buscador:focus-within { outline: 3px solid var(--anil); outline-offset: 2px; }
+.buscador button { border: 0; background: var(--rosa); color: #fff; border-radius: 999px; width: 36px; height: 36px; display: grid; place-items: center; cursor: pointer; flex-shrink: 0; }
+.buscador button .ico { width: 18px; height: 18px; }
+.nav-principal { display: none; }
+
+/* ---------- Barra inferior (solo celular) ---------- */
+.barra-inferior { position: fixed; left: 0; right: 0; bottom: 0; z-index: 30; height: var(--alto-barra-inferior); background: var(--blanco); border-top: 1px solid var(--linea); display: grid; grid-template-columns: repeat(4, 1fr); box-shadow: 0 -4px 16px rgba(42,30,23,.06); }
+.barra-inferior a { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; text-decoration: none; font-size: .72rem; font-weight: 700; color: var(--gris); }
+.barra-inferior a[aria-current="page"] { color: var(--rosa); }
+
+/* ---------- Encabezado del catálogo ---------- */
+.migas { font-size: .82rem; color: var(--gris); padding-top: 16px; }
+.migas ol { display: flex; gap: 6px; list-style: none; flex-wrap: wrap; }
+.migas li + li::before { content: "/"; margin-right: 6px; color: var(--linea); }
+.migas a { color: var(--anil); font-weight: 700; }
+.encabezado { padding: 8px 0 14px; }
+.encabezado h1 { font-family: var(--font-titulo); font-weight: 800; font-size: clamp(1.7rem, 6vw, 2.5rem); line-height: 1.1; }
+.encabezado p { color: var(--gris); font-size: .92rem; margin-top: 4px; }
+.franja-huipil { height: 10px; border-radius: 5px; margin-top: 12px;
+  background:
+    linear-gradient(135deg, var(--rosa) 25%, transparent 25%) -5px 0 / 10px 10px,
+    linear-gradient(225deg, var(--rosa) 25%, transparent 25%) -5px 0 / 10px 10px,
+    linear-gradient(315deg, var(--verde) 25%, transparent 25%) 0 0 / 10px 10px,
+    linear-gradient(45deg, var(--verde) 25%, transparent 25%) 0 0 / 10px 10px,
+    var(--maiz); }
+
+/* Chips de categoría (solo celular) */
+.chips-categorias { display: flex; gap: 8px; overflow-x: auto; padding: 4px 16px 12px; margin-inline: -16px; scrollbar-width: none; }
+.chips-categorias a { flex-shrink: 0; text-decoration: none; font-weight: 700; font-size: .88rem; padding: .5rem 1rem; border-radius: 999px; background: var(--blanco); border: 1px solid var(--linea); min-height: 40px; display: inline-flex; align-items: center; }
+.chips-categorias a[aria-current="true"] { background: var(--tinta); color: #fff; border-color: var(--tinta); }
+
+/* Barra de herramientas: filtros + ordenar */
+.herramientas { display: flex; gap: 10px; align-items: center; padding-bottom: 12px; }
+.btn-filtros { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 0 16px; border-radius: 999px; background: var(--blanco); border: 1px solid var(--tinta); font-weight: 800; text-decoration: none; font-size: .9rem; }
+.btn-filtros .num { background: var(--rosa); color: #fff; border-radius: 10px; min-width: 20px; height: 20px; font-size: .72rem; display: grid; place-items: center; padding: 0 5px; }
+.ordenar { margin-left: auto; display: flex; align-items: center; gap: 8px; font-size: .88rem; }
+.ordenar label { color: var(--gris); font-weight: 700; }
+.ordenar select { min-height: 44px; border: 1px solid var(--linea); border-radius: 999px; background: var(--blanco); padding: 0 34px 0 14px; font-weight: 700; appearance: none; cursor: pointer;
+  background-image: linear-gradient(45deg, transparent 50%, var(--tinta) 50%), linear-gradient(135deg, var(--tinta) 50%, transparent 50%);
+  background-position: calc(100% - 18px) 50%, calc(100% - 13px) 50%; background-size: 5px 5px; background-repeat: no-repeat; }
+
+/* Filtros activos */
+.activos { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; padding-bottom: 14px; font-size: .85rem; }
+.activos .chip { display: inline-flex; align-items: center; gap: 6px; background: var(--rosa-claro); color: var(--rosa-osc); font-weight: 700; border-radius: 999px; padding: .3rem .4rem .3rem .8rem; border: 0; cursor: pointer; }
+.activos .chip .ico { width: 16px; height: 16px; }
+.resultado { font-size: .85rem; color: var(--gris); margin-left: auto; }
+
+/* ---------- Diseño principal ---------- */
+.catalogo { display: grid; gap: 20px; padding-bottom: 40px; }
+
+/* Panel de filtros: hoja inferior en celular */
+.panel-filtros { position: fixed; inset: 0; z-index: 50; visibility: hidden; }
+.panel-filtros .fondo { position: absolute; inset: 0; background: rgba(42,30,23,.45); opacity: 0; transition: opacity .2s; display: block; }
+.panel-filtros .hoja { position: absolute; left: 0; right: 0; bottom: 0; max-height: 88vh; background: var(--blanco); border-radius: 24px 24px 0 0; display: flex; flex-direction: column; transform: translateY(100%); transition: transform .25s ease; }
+.panel-filtros:target { visibility: visible; }
+.panel-filtros:target .fondo { opacity: 1; }
+.panel-filtros:target .hoja { transform: none; }
+.hoja-cabecera { display: flex; align-items: center; justify-content: space-between; padding: 14px 20px; border-bottom: 1px solid var(--linea); }
+.hoja-cabecera h2 { font-family: var(--font-titulo); font-weight: 800; font-size: 1.3rem; }
+.hoja-cuerpo { overflow-y: auto; padding: 4px 20px 20px; }
+.hoja-pie { display: grid; grid-template-columns: 1fr 1.4fr; gap: 10px; padding: 12px 20px 16px; border-top: 1px solid var(--linea); }
+.hoja-pie .btn { min-height: 48px; padding: 0 12px; }
+.btn-limpiar { background: var(--blanco); border-color: var(--linea); color: var(--tinta); }
+
+.grupo { padding: 16px 0; border-bottom: 1px solid var(--linea); }
+.grupo:last-child { border-bottom: 0; }
+.grupo legend, .grupo h3 { font-weight: 800; font-size: .95rem; margin-bottom: 10px; padding: 0; }
+.opcion { display: flex; align-items: center; gap: 10px; min-height: 40px; cursor: pointer; font-size: .93rem; }
+.opcion input { width: 20px; height: 20px; accent-color: var(--rosa); flex-shrink: 0; cursor: pointer; }
+.opcion .cuenta { margin-left: auto; color: var(--gris); font-size: .8rem; }
+.ayuda { font-size: .78rem; color: var(--gris); margin: 2px 0 0 30px; line-height: 1.35; }
+.rango { display: grid; grid-template-columns: 1fr auto 1fr; gap: 8px; align-items: end; }
+.rango label { font-size: .78rem; font-weight: 700; color: var(--gris); display: block; margin-bottom: 4px; }
+.campo-q { display: flex; align-items: center; border: 1px solid var(--linea); border-radius: 12px; padding: 0 10px; min-height: 44px; background: var(--crema); }
+.campo-q span { color: var(--gris); font-weight: 700; margin-right: 4px; }
+.campo-q input { border: 0; background: transparent; width: 100%; min-width: 0; padding: .55rem 0; }
+.campo-q:focus-within { outline: 3px solid var(--anil); outline-offset: 1px; }
+.campo-q input:focus { outline: none; }
+.rango .guion { padding-bottom: 12px; color: var(--gris); }
+.precios-rapidos { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+.precios-rapidos label { cursor: pointer; }
+.precios-rapidos input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+.precios-rapidos span { display: inline-flex; align-items: center; min-height: 36px; padding: 0 12px; border-radius: 999px; border: 1px solid var(--linea); font-size: .82rem; font-weight: 700; background: var(--blanco); }
+.precios-rapidos input:checked + span { background: var(--tinta); color: #fff; border-color: var(--tinta); }
+.precios-rapidos input:focus-visible + span { outline: 3px solid var(--anil); outline-offset: 2px; }
+.interruptor { display: flex; align-items: flex-start; gap: 12px; cursor: pointer; }
+.interruptor input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+.interruptor .pista { width: 44px; height: 26px; border-radius: 13px; background: #D9CFC6; position: relative; flex-shrink: 0; transition: background .15s; margin-top: 1px; }
+.interruptor .pista::after { content: ""; position: absolute; top: 3px; left: 3px; width: 20px; height: 20px; border-radius: 50%; background: #fff; box-shadow: 0 1px 3px rgba(0,0,0,.25); transition: transform .15s; }
+.interruptor input:checked + .pista { background: var(--verde); }
+.interruptor input:checked + .pista::after { transform: translateX(18px); }
+.interruptor input:focus-visible + .pista { outline: 3px solid var(--anil); outline-offset: 2px; }
+.interruptor strong { display: block; font-size: .93rem; }
+.interruptor small { display: block; font-size: .78rem; color: var(--gris); line-height: 1.35; }
+
+/* ---------- Tarjetas de producto (versión compacta) ---------- */
+.productos { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+.producto { background: var(--blanco); border-radius: 14px; overflow: hidden; display: flex; flex-direction: column; border: 1px solid var(--linea); }
+.producto > a { text-decoration: none; display: block; }
+.foto { aspect-ratio: 1 / 1; display: grid; place-items: center; color: #fff; position: relative; }
+.foto .ico { width: 42px; height: 42px; stroke-width: 1.4; }
+.foto::after { content: "[FOTO]"; position: absolute; bottom: 6px; right: 8px; font-size: .58rem; font-weight: 800; letter-spacing: .08em; opacity: .85; }
+.insignia { position: absolute; top: 8px; left: 8px; font-size: .66rem; font-weight: 800; padding: .15rem .5rem; border-radius: 999px; background: var(--blanco); color: var(--tinta); }
+.etiquetas { position: absolute; top: 8px; right: 8px; display: flex; flex-direction: column; gap: 4px; align-items: flex-end; }
+.etiquetas span { display: grid; place-items: center; width: 26px; height: 26px; border-radius: 50%; background: var(--blanco); }
+.etiquetas .ico { width: 16px; height: 16px; stroke-width: 2; }
+.et-perecedero { color: #8A5A00; }
+.et-liquido { color: var(--anil); }
+.producto-info { padding: 10px 10px 12px; display: flex; flex-direction: column; gap: 4px; flex: 1; }
+.producto-cat { font-size: .66rem; font-weight: 800; text-transform: uppercase; letter-spacing: .08em; color: var(--gris); }
+.producto h2 { font-size: .88rem; font-weight: 700; line-height: 1.3; }
+.producto h2 a { text-decoration: none; }
+.producto h2 a:hover { text-decoration: underline; }
+.precio { font-family: var(--font-titulo); font-weight: 800; font-size: 1.08rem; color: var(--rosa); margin-top: auto; }
+.stock { font-size: .74rem; font-weight: 700; display: flex; align-items: center; gap: 5px; }
+.stock::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: currentColor; }
+.stock--ok { color: var(--verde); }
+.stock--bajo { color: var(--ambar-txt); }
+.stock--agotado { color: var(--gris); }
+.aviso-corto { font-size: .7rem; font-weight: 700; line-height: 1.3; padding: 4px 7px; border-radius: 7px; }
+.aviso-corto.perecedero { background: var(--maiz-claro); color: #6B4700; }
+.aviso-corto.liquido { background: var(--anil-claro); color: var(--anil); }
+.btn-carrito { width: 100%; min-height: 40px; font-size: .82rem; padding: 0 8px; margin-top: 4px; }
+.btn-carrito .ico { width: 18px; height: 18px; }
+.btn-carrito:disabled { background: #EFE7DF; color: var(--gris); cursor: not-allowed; }
+.btn-avisar { width: 100%; min-height: 40px; font-size: .82rem; padding: 0 8px; margin-top: 4px; background: var(--blanco); border-color: var(--linea); color: var(--tinta); }
+
+/* Leyenda de íconos */
+.leyenda { display: flex; flex-wrap: wrap; gap: 6px 16px; font-size: .78rem; color: var(--gris); padding: 14px 0 4px; }
+.leyenda span { display: inline-flex; align-items: center; gap: 6px; }
+.leyenda .ico { width: 16px; height: 16px; }
+
+/* ---------- Paginación ---------- */
+.paginacion { display: flex; flex-direction: column; align-items: center; gap: 10px; padding: 24px 0 8px; }
+.paginacion ul { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; justify-content: center; }
+.paginacion a, .paginacion span.pag { display: grid; place-items: center; min-width: 44px; height: 44px; padding: 0 10px; border-radius: 999px; text-decoration: none; font-weight: 800; font-size: .92rem; background: var(--blanco); border: 1px solid var(--linea); }
+.paginacion a:hover { border-color: var(--rosa); }
+.paginacion a[aria-current="page"] { background: var(--rosa); color: #fff; border-color: var(--rosa); }
+.paginacion span.puntos { border: 0; background: none; min-width: 20px; color: var(--gris); }
+.paginacion .deshabilitado { color: #B5A9A0; pointer-events: none; }
+.paginacion p { font-size: .82rem; color: var(--gris); }
+
+/* WhatsApp flotante */
+.whatsapp { position: fixed; right: 16px; bottom: calc(var(--alto-barra-inferior) + 14px); z-index: 25; display: flex; align-items: center; gap: 8px; background: var(--verde); color: #fff; text-decoration: none; font-weight: 800; padding: 12px; border-radius: 999px; box-shadow: 0 8px 22px rgba(11,110,79,.4); }
+.whatsapp span { display: none; }
+
+/* Pie */
+.pie { background: var(--tinta); color: #F5EDE5; padding: 32px 0 24px; font-size: .88rem; }
+.pie .contenedor { display: grid; gap: 14px; }
+.pie .marca { font-family: var(--font-titulo); font-size: 1.2rem; color: #fff; font-weight: 800; }
+.pie .marcador { background: rgba(242,183,5,.18); color: var(--maiz); font-weight: 800; padding: 0 4px; border-radius: 4px; }
+.pie-final { border-top: 1px solid rgba(255,255,255,.15); padding-top: 14px; font-size: .78rem; color: #CBBFB5; }
+
+/* ============================================================
+   TABLET Y ESCRITORIO
+   ============================================================ */
+@media (min-width: 600px) {
+  .productos { grid-template-columns: repeat(3, 1fr); gap: 14px; }
+}
+@media (min-width: 900px) {
+  body { padding-bottom: 0; }
+  .barra-inferior, .chips-categorias, .btn-filtros, .hoja-cabecera a, .hoja-pie, .panel-filtros .fondo { display: none; }
+  .solo-escritorio { display: grid; }
+  .cabecera .contenedor { flex-wrap: nowrap; gap: 20px; padding-block: 14px; }
+  .logo { flex: 0 0 auto; }
+  .nav-principal { display: flex; gap: 4px; }
+  .nav-principal a { text-decoration: none; font-weight: 700; font-size: .95rem; padding: .45rem .9rem; border-radius: 999px; white-space: nowrap; }
+  .nav-principal a:hover { background: var(--crema); }
+  .nav-principal a[aria-current="page"] { background: var(--rosa); color: #fff; }
+  .buscador { order: 0; flex: 1 1 auto; max-width: 360px; margin-left: auto; }
+  .acciones { order: 0; }
+
+  .encabezado { padding: 8px 0 20px; }
+  .catalogo { grid-template-columns: 260px 1fr; gap: 32px; align-items: start; padding-bottom: 64px; }
+  /* En escritorio el panel es una columna fija a la izquierda */
+  .panel-filtros { position: sticky; top: 90px; inset: auto; visibility: visible; z-index: auto; }
+  .panel-filtros .hoja { position: static; transform: none; max-height: calc(100vh - 110px); border-radius: var(--radio); border: 1px solid var(--linea); transition: none; }
+  .hoja-cabecera { padding: 14px 18px; }
+  .hoja-cabecera h2 { font-size: 1.15rem; }
+  .hoja-cuerpo { padding: 0 18px 12px; }
+  .herramientas { padding-bottom: 14px; }
+  .productos { gap: 18px; }
+  .producto h2 { font-size: .95rem; }
+  .foto { aspect-ratio: 4 / 3; }
+  .producto-info { padding: 12px 14px 14px; gap: 5px; }
+  .precio { font-size: 1.2rem; }
+  .btn-carrito, .btn-avisar { min-height: 44px; font-size: .88rem; }
+  .paginacion { flex-direction: row; justify-content: space-between; }
+  .whatsapp { bottom: 20px; right: 20px; padding: 12px 18px 12px 14px; }
+  .whatsapp span { display: inline; }
+  .pie .contenedor { grid-template-columns: 2fr 1fr; }
+  .pie-final { grid-column: 1 / -1; }
+}
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-bolsa" viewBox="0 0 24 24"><path d="M5 9h14l-1 11H6L5 9z"/><path d="M9 9V7a3 3 0 0 1 6 0v2"/></symbol>
+  <symbol id="i-paleta" viewBox="0 0 24 24"><rect x="3" y="6" width="18" height="12" rx="2"/><circle cx="8" cy="12" r="2"/><circle cx="13.5" cy="12" r="2"/><path d="M18 10v4"/></symbol>
+  <symbol id="i-limpieza" viewBox="0 0 24 24"><path d="M8 10h7v10a1 1 0 0 1-1 1H9a1 1 0 0 1-1-1V10z"/><path d="M9 10V7h4l4-2"/><path d="M13 7h3"/></symbol>
+  <symbol id="i-dulce" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M8 12 4 9v6l4-3zM16 12l4-3v6l-4-3z"/></symbol>
+  <symbol id="i-cafe" viewBox="0 0 24 24"><path d="M5 10h11v5a4 4 0 0 1-4 4H9a4 4 0 0 1-4-4v-5z"/><path d="M16 11h1.5a2 2 0 0 1 0 4H16"/><path d="M9 3.5c0 1.5 1.5 1.5 1.5 3M12.5 3.5c0 1.5 1.5 1.5 1.5 3"/></symbol>
+  <symbol id="i-regalo" viewBox="0 0 24 24"><rect x="4" y="10" width="16" height="10" rx="1"/><path d="M3 7h18v3H3zM12 7v13"/><path d="M12 7c-1.5-3.5-5.5-3-4.5 0M12 7c1.5-3.5 5.5-3 4.5 0"/></symbol>
+  <symbol id="i-carrito" viewBox="0 0 24 24"><path d="M3 4h2l2.4 11h10.2L20 8H6.2"/><circle cx="9" cy="19" r="1.5"/><circle cx="17" cy="19" r="1.5"/></symbol>
+  <symbol id="i-usuario" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c1-4.5 4.5-6 8-6s7 1.5 8 6"/></symbol>
+  <symbol id="i-buscar" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></symbol>
+  <symbol id="i-casa" viewBox="0 0 24 24"><path d="M3 11 12 4l9 7"/><path d="M5 10v10h14V10"/><path d="M10 20v-5h4v5"/></symbol>
+  <symbol id="i-cuadricula" viewBox="0 0 24 24"><rect x="4" y="4" width="7" height="7" rx="1.5"/><rect x="13" y="4" width="7" height="7" rx="1.5"/><rect x="4" y="13" width="7" height="7" rx="1.5"/><rect x="13" y="13" width="7" height="7" rx="1.5"/></symbol>
+  <symbol id="i-caja" viewBox="0 0 24 24"><path d="M4 8l8-4 8 4v8l-8 4-8-4z"/><path d="M4 8l8 4 8-4M12 12v8"/></symbol>
+  <symbol id="i-chat" viewBox="0 0 24 24"><path d="M4 20l1.3-3.9A8 8 0 1 1 8 19.1L4 20z"/><path d="M9 10c.5 2 2.5 4 5 5l1-1.5-2-1-1 .8c-.8-.4-1.4-1-1.8-1.8l.8-1-1-2L9 10z"/></symbol>
+  <symbol id="i-filtro" viewBox="0 0 24 24"><path d="M4 6h16M7 12h10M10 18h4"/></symbol>
+  <symbol id="i-cerrar" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></symbol>
+  <symbol id="i-reloj" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+  <symbol id="i-gota" viewBox="0 0 24 24"><path d="M12 3s6 6.5 6 11a6 6 0 0 1-12 0c0-4.5 6-11 6-11z"/></symbol>
+  <symbol id="i-campana" viewBox="0 0 24 24"><path d="M6 16V11a6 6 0 0 1 12 0v5l2 2H4l2-2z"/><path d="M10 20a2 2 0 0 0 4 0"/></symbol>
+  <symbol id="i-flecha-izq" viewBox="0 0 24 24"><path d="M15 6l-6 6 6 6"/></symbol>
+  <symbol id="i-flecha-der" viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></symbol>
+</svg>
+
+<a class="saltar" href="#productos">Saltar a los productos</a>
+
+<p class="barra-envio">Envío gratis en compras mayores a Q600.00 (hasta 10 lb)</p>
+
+<header class="cabecera">
+  <div class="contenedor">
+    <a class="logo" href="01-inicio.html" aria-label="Detalles Eternos GT, ir al inicio">
+      <span class="logo-marca" aria-hidden="true">[LOGO]</span>
+      <span class="logo-nombre">Detalles Eternos<small>Tienda mexicana · GT</small></span>
+    </a>
+    <nav class="nav-principal" aria-label="Principal">
+      <a href="01-inicio.html">Inicio</a>
+      <a href="#" aria-current="page">Catálogo</a>
+      <a href="#">Mayoristas</a>
+      <a href="#">Mis pedidos</a>
+    </nav>
+    <form class="buscador" role="search" onsubmit="return false">
+      <label class="sr-only" for="q">Buscar productos</label>
+      <input id="q" type="search" placeholder="Buscar dulces, café, carteras…">
+      <button type="submit" aria-label="Buscar"><svg class="ico" aria-hidden="true"><use href="#i-buscar"/></svg></button>
+    </form>
+    <div class="acciones">
+      <a class="btn-icono solo-escritorio" href="#" aria-label="Mi cuenta"><svg class="ico" aria-hidden="true"><use href="#i-usuario"/></svg></a>
+      <a class="btn-icono" href="#" aria-label="Carrito, 2 productos"><svg class="ico" aria-hidden="true"><use href="#i-carrito"/></svg><span class="contador" aria-hidden="true">2</span></a>
+    </div>
+  </div>
+</header>
+
+<main class="contenedor">
+  <nav class="migas" aria-label="Ruta de navegación">
+    <ol><li><a href="01-inicio.html">Inicio</a></li><li aria-current="page">Catálogo</li></ol>
+  </nav>
+
+  <div class="encabezado">
+    <h1>Catálogo</h1>
+    <p>Productos mexicanos en existencia en nuestra tienda de zona 18. Las existencias se actualizan con la tienda física.</p>
+    <div class="franja-huipil" aria-hidden="true"></div>
+  </div>
+
+  <!-- Chips de categoría: acceso rápido en celular -->
+  <nav class="chips-categorias" aria-label="Categorías">
+    <a href="#" aria-current="true">Todas</a>
+    <a href="#">Carteras</a>
+    <a href="#">Belleza</a>
+    <a href="#">Hogar y limpieza</a>
+    <a href="#">Dulcería</a>
+    <a href="#">Café</a>
+    <a href="#">Regalos</a>
+  </nav>
+
+  <div class="catalogo">
+    <!-- ================= FILTROS ================= -->
+    <aside class="panel-filtros" id="filtros" aria-labelledby="t-filtros">
+      <a class="fondo" href="#" aria-label="Cerrar filtros" tabindex="-1"></a>
+      <form class="hoja" onsubmit="return false">
+        <div class="hoja-cabecera">
+          <h2 id="t-filtros">Filtros</h2>
+          <a class="btn-icono" href="#" aria-label="Cerrar filtros"><svg class="ico" aria-hidden="true"><use href="#i-cerrar"/></svg></a>
+        </div>
+        <div class="hoja-cuerpo">
+          <fieldset class="grupo">
+            <legend>Categoría</legend>
+            <label class="opcion"><input type="checkbox" name="cat" value="carteras">Carteras<span class="cuenta">34</span></label>
+            <label class="opcion"><input type="checkbox" name="cat" value="belleza">Belleza y maquillaje<span class="cuenta">61</span></label>
+            <label class="opcion"><input type="checkbox" name="cat" value="hogar">Hogar y limpieza<span class="cuenta">47</span></label>
+            <label class="opcion"><input type="checkbox" name="cat" value="dulceria">Dulcería mexicana<span class="cuenta">52</span></label>
+            <label class="opcion"><input type="checkbox" name="cat" value="cafe">Café<span class="cuenta">18</span></label>
+            <label class="opcion"><input type="checkbox" name="cat" value="regalos">Regalos y canastas<span class="cuenta">36</span></label>
+          </fieldset>
+
+          <fieldset class="grupo">
+            <legend>Precio</legend>
+            <div class="rango">
+              <div><label for="pmin">Mínimo</label><div class="campo-q"><span aria-hidden="true">Q</span><input id="pmin" type="number" inputmode="numeric" min="0" placeholder="0" value="0"></div></div>
+              <span class="guion" aria-hidden="true">–</span>
+              <div><label for="pmax">Máximo</label><div class="campo-q"><span aria-hidden="true">Q</span><input id="pmax" type="number" inputmode="numeric" min="0" placeholder="Sin límite" value="1500"></div></div>
+            </div>
+            <div class="precios-rapidos" role="group" aria-label="Rangos de precio rápidos">
+              <label><input type="radio" name="rp"><span>Menos de Q100</span></label>
+              <label><input type="radio" name="rp"><span>Q100 – Q300</span></label>
+              <label><input type="radio" name="rp"><span>Q300 – Q600</span></label>
+              <label><input type="radio" name="rp"><span>Más de Q600</span></label>
+            </div>
+          </fieldset>
+
+          <div class="grupo">
+            <h3>Disponibilidad</h3>
+            <label class="interruptor"><input type="checkbox"><span class="pista" aria-hidden="true"></span><span><strong>Solo productos disponibles</strong><small>Oculta los productos agotados</small></span></label>
+          </div>
+
+          <div class="grupo">
+            <h3>Entrega</h3>
+            <label class="interruptor"><input type="checkbox"><span class="pista" aria-hidden="true"></span><span><strong>Se puede enviar a todo el país</strong><small>Oculta perecederos (dulces y café) y líquidos o aerosoles con restricción de envío</small></span></label>
+          </div>
+        </div>
+        <div class="hoja-pie">
+          <button class="btn btn-limpiar" type="reset">Limpiar</button>
+          <a class="btn btn-primario" href="#">Ver 248 productos</a>
+        </div>
+      </form>
+    </aside>
+
+    <!-- ================= RESULTADOS ================= -->
+    <section aria-labelledby="t-resultados">
+      <h2 id="t-resultados" class="sr-only">Resultados</h2>
+      <div class="herramientas">
+        <a class="btn-filtros" href="#filtros"><svg class="ico" aria-hidden="true"><use href="#i-filtro"/></svg>Filtros <span class="num" aria-label="1 filtro activo">1</span></a>
+        <div class="ordenar">
+          <label for="orden">Ordenar</label>
+          <select id="orden">
+            <option>Más vendidos</option>
+            <option>Menor precio</option>
+            <option>Mayor precio</option>
+            <option>Más nuevos</option>
+            <option>Nombre (A–Z)</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="activos">
+        <button class="chip" type="button" aria-label="Quitar filtro: precio de Q0 a Q1,500">Precio: Q0 – Q1,500<svg class="ico" aria-hidden="true"><use href="#i-cerrar"/></svg></button>
+        <button class="btn-texto" type="button">Limpiar todo</button>
+        <p class="resultado" role="status">248 productos</p>
+      </div>
+
+      <div class="productos" id="productos">
+        <article class="producto">
+          <a href="#" tabindex="-1" aria-hidden="true"><div class="foto" style="background:var(--rosa)"><span class="insignia">¡Últimas 3!</span><svg class="ico"><use href="#i-bolsa"/></svg></div></a>
+          <div class="producto-info">
+            <p class="producto-cat">Carteras</p>
+            <h2><a href="#">Cartera de piel Frida, color vino</a></h2>
+            <p class="precio">Q1,250.00</p>
+            <p class="stock stock--bajo">Quedan 3</p>
+            <button class="btn btn-primario btn-carrito"><svg class="ico" aria-hidden="true"><use href="#i-carrito"/></svg>Agregar</button>
+          </div>
+        </article>
+        <article class="producto">
+          <a href="#" tabindex="-1" aria-hidden="true"><div class="foto" style="background:var(--anil)"><svg class="ico"><use href="#i-paleta"/></svg></div></a>
+          <div class="producto-info">
+            <p class="producto-cat">Belleza</p>
+            <h2><a href="#">Paleta de sombras Catrina, 18 tonos</a></h2>
+            <p class="precio">Q189.00</p>
+            <p class="stock stock--ok">Disponible</p>
+            <button class="btn btn-primario btn-carrito"><svg class="ico" aria-hidden="true"><use href="#i-carrito"/></svg>Agregar</button>
+          </div>
+        </article>
+        <article class="producto">
+          <a href="#" tabindex="-1" aria-hidden="true"><div class="foto" style="background:var(--rosa-osc)"><span class="etiquetas"><span class="et-perecedero"><svg class="ico"><use href="#i-reloj"/></svg></span></span><svg class="ico"><use href="#i-dulce"/></svg></div></a>
+          <div class="producto-info">
+            <p class="producto-cat">Dulcería</p>
+            <h2><a href="#">Mazapán de cacahuate, caja de 30 piezas</a></h2>
+            <p class="precio">Q65.00</p>
+            <p class="stock stock--ok">Disponible</p>
+            <p class="aviso-corto perecedero">Perecedero: recogida o exprés local</p>
+            <button class="btn btn-primario btn-carrito"><svg class="ico" aria-hidden="true"><use href="#i-carrito"/></svg>Agregar</button>
+          </div>
+        </article>
+        <article class="producto">
+          <a href="#" tabindex="-1" aria-hidden="true"><div class="foto" style="background:var(--cafe)"><span class="etiquetas"><span class="et-perecedero"><svg class="ico"><use href="#i-reloj"/></svg></span></span><svg class="ico"><use href="#i-cafe"/></svg></div></a>
+          <div class="producto-info">
+            <p class="producto-cat">Café</p>
+            <h2><a href="#">Café de olla molido, 340 g</a></h2>
+            <p class="precio">Q78.00</p>
+            <p class="stock stock--ok">Disponible</p>
+            <p class="aviso-corto perecedero">Perecedero: recogida o exprés local</p>
+            <button class="btn btn-primario btn-carrito"><svg class="ico" aria-hidden="true"><use href="#i-carrito"/></svg>Agregar</button>
+          </div>
+        </article>
+        <article class="producto">
+          <a href="#" tabindex="-1" aria-hidden="true"><div class="foto" style="background:var(--verde)"><span class="etiquetas"><span class="et-liquido"><svg class="ico"><use href="#i-gota"/></svg></span></span><svg class="ico"><use href="#i-limpieza"/></svg></div></a>
+          <div class="producto-info">
+            <p class="producto-cat">Hogar y limpieza</p>
+            <h2><a href="#">Limpiador multiusos lavanda, 3.78 L</a></h2>
+            <p class="precio">Q54.00</p>
+            <p class="stock stock--ok">Disponible</p>
+            <p class="aviso-corto liquido">Líquido: envío con restricciones</p>
+            <button class="btn btn-primario btn-carrito"><svg class="ico" aria-hidden="true"><use href="#i-carrito"/></svg>Agregar</button>
+          </div>
+        </article>
+        <article class="producto">
+          <a href="#" tabindex="-1" aria-hidden="true"><div class="foto" style="background:#B8860B"><svg class="ico"><use href="#i-bolsa"/></svg></div></a>
+          <div class="producto-info">
+            <p class="producto-cat">Carteras</p>
+            <h2><a href="#">Cartera tipo sobre bordada, color mostaza</a></h2>
+            <p class="precio">Q385.00</p>
+            <p class="stock stock--ok">Disponible</p>
+            <button class="btn btn-primario btn-carrito"><svg class="ico" aria-hidden="true"><use href="#i-carrito"/></svg>Agregar</button>
+          </div>
+        </article>
+        <article class="producto">
+          <a href="#" tabindex="-1" aria-hidden="true"><div class="foto" style="background:#8E4A6B"><span class="etiquetas"><span class="et-liquido"><svg class="ico"><use href="#i-gota"/></svg></span></span><svg class="ico"><use href="#i-paleta"/></svg></div></a>
+          <div class="producto-info">
+            <p class="producto-cat">Belleza</p>
+            <h2><a href="#">Laca para cabello en aerosol, 400 ml</a></h2>
+            <p class="precio">Q59.00</p>
+            <p class="stock stock--ok">Disponible</p>
+            <p class="aviso-corto liquido">Aerosol: envío con restricciones</p>
+            <button class="btn btn-primario btn-carrito"><svg class="ico" aria-hidden="true"><use href="#i-carrito"/></svg>Agregar</button>
+          </div>
+        </article>
+        <article class="producto">
+          <a href="#" tabindex="-1" aria-hidden="true"><div class="foto" style="background:#A83A2B"><span class="etiquetas"><span class="et-perecedero"><svg class="ico"><use href="#i-reloj"/></svg></span></span><svg class="ico"><use href="#i-dulce"/></svg></div></a>
+          <div class="producto-info">
+            <p class="producto-cat">Dulcería</p>
+            <h2><a href="#">Tamarindo enchilado, bolsa de 20 piezas</a></h2>
+            <p class="precio">Q38.00</p>
+            <p class="stock stock--bajo">Quedan 5</p>
+            <p class="aviso-corto perecedero">Perecedero: recogida o exprés local</p>
+            <button class="btn btn-primario btn-carrito"><svg class="ico" aria-hidden="true"><use href="#i-carrito"/></svg>Agregar</button>
+          </div>
+        </article>
+        <article class="producto">
+          <a href="#" tabindex="-1" aria-hidden="true"><div class="foto" style="background:var(--tinta)"><svg class="ico"><use href="#i-regalo"/></svg></div></a>
+          <div class="producto-info">
+            <p class="producto-cat">Regalos</p>
+            <h2><a href="#">Set de regalo Frida: cosmetiquera y espejo</a></h2>
+            <p class="precio">Q210.00</p>
+            <p class="stock stock--ok">Disponible</p>
+            <button class="btn btn-primario btn-carrito"><svg class="ico" aria-hidden="true"><use href="#i-carrito"/></svg>Agregar</button>
+          </div>
+        </article>
+        <article class="producto">
+          <a href="#" tabindex="-1" aria-hidden="true"><div class="foto" style="background:#3F7A5E"><span class="etiquetas"><span class="et-liquido"><svg class="ico"><use href="#i-gota"/></svg></span></span><svg class="ico"><use href="#i-limpieza"/></svg></div></a>
+          <div class="producto-info">
+            <p class="producto-cat">Hogar y limpieza</p>
+            <h2><a href="#">Jabón líquido para trastes, limón, 1 L</a></h2>
+            <p class="precio">Q32.00</p>
+            <p class="stock stock--ok">Disponible</p>
+            <p class="aviso-corto liquido">Líquido: envío con restricciones</p>
+            <button class="btn btn-primario btn-carrito"><svg class="ico" aria-hidden="true"><use href="#i-carrito"/></svg>Agregar</button>
+          </div>
+        </article>
+        <article class="producto">
+          <a href="#" tabindex="-1" aria-hidden="true"><div class="foto" style="background:#5B4B44"><span class="insignia">Agotado</span><svg class="ico"><use href="#i-regalo"/></svg></div></a>
+          <div class="producto-info">
+            <p class="producto-cat">Regalos</p>
+            <h2><a href="#">Canasta Sabores de México</a></h2>
+            <p class="precio">Q450.00</p>
+            <p class="stock stock--agotado">Agotado</p>
+            <button class="btn btn-avisar"><svg class="ico" aria-hidden="true"><use href="#i-campana"/></svg>Avisarme</button>
+          </div>
+        </article>
+        <article class="producto">
+          <a href="#" tabindex="-1" aria-hidden="true"><div class="foto" style="background:#4A2A18"><span class="etiquetas"><span class="et-perecedero"><svg class="ico"><use href="#i-reloj"/></svg></span></span><svg class="ico"><use href="#i-cafe"/></svg></div></a>
+          <div class="producto-info">
+            <p class="producto-cat">Café</p>
+            <h2><a href="#">Café de altura en grano, 454 g</a></h2>
+            <p class="precio">Q115.00</p>
+            <p class="stock stock--ok">Disponible</p>
+            <p class="aviso-corto perecedero">Perecedero: recogida o exprés local</p>
+            <button class="btn btn-primario btn-carrito"><svg class="ico" aria-hidden="true"><use href="#i-carrito"/></svg>Agregar</button>
+          </div>
+        </article>
+      </div>
+
+      <p class="leyenda">
+        <span><svg class="ico" style="color:#8A5A00" aria-hidden="true"><use href="#i-reloj"/></svg>Perecedero: solo recogida en tienda o exprés local</span>
+        <span><svg class="ico" style="color:var(--anil)" aria-hidden="true"><use href="#i-gota"/></svg>Líquido o aerosol: envío departamental con restricciones</span>
+      </p>
+
+      <nav class="paginacion" aria-label="Paginación">
+        <p>Mostrando 1–12 de 248 productos</p>
+        <ul>
+          <li><span class="pag deshabilitado" aria-disabled="true"><svg class="ico" aria-hidden="true"><use href="#i-flecha-izq"/></svg><span class="sr-only">Página anterior</span></span></li>
+          <li><a href="#" aria-current="page" aria-label="Página 1">1</a></li>
+          <li><a href="#" aria-label="Página 2">2</a></li>
+          <li><a href="#" aria-label="Página 3">3</a></li>
+          <li><span class="pag puntos" aria-hidden="true">…</span></li>
+          <li><a href="#" aria-label="Página 21, la última">21</a></li>
+          <li><a href="#" aria-label="Página siguiente"><svg class="ico" aria-hidden="true"><use href="#i-flecha-der"/></svg></a></li>
+        </ul>
+      </nav>
+    </section>
+  </div>
+</main>
+
+<footer class="pie">
+  <div class="contenedor">
+    <div><p class="marca">Detalles Eternos GT</p><p>Tienda de variedades mexicana en zona 18, Ciudad de Guatemala.</p></div>
+    <div><p>WhatsApp: <span class="marcador">[TELÉFONO WHATSAPP]</span></p><p>Horario: <span class="marcador">[HORARIO]</span></p></div>
+    <p class="pie-final">© 2026 Detalles Eternos GT · Prototipo académico con datos de ejemplo</p>
+  </div>
+</footer>
+
+<a class="whatsapp" href="#" aria-label="Escríbenos por WhatsApp al [TELÉFONO WHATSAPP]"><svg class="ico" aria-hidden="true"><use href="#i-chat"/></svg><span>WhatsApp</span></a>
+
+<nav class="barra-inferior" aria-label="Navegación rápida">
+  <a href="01-inicio.html"><svg class="ico" aria-hidden="true"><use href="#i-casa"/></svg>Inicio</a>
+  <a href="#" aria-current="page"><svg class="ico" aria-hidden="true"><use href="#i-cuadricula"/></svg>Catálogo</a>
+  <a href="#"><svg class="ico" aria-hidden="true"><use href="#i-caja"/></svg>Mis pedidos</a>
+  <a href="#"><svg class="ico" aria-hidden="true"><use href="#i-usuario"/></svg>Mi cuenta</a>
+</nav>
+
+</body>
+</html>
