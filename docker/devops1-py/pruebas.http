@@ -1,0 +1,57 @@
+### ============================================================
+### Pruebas del proyecto DEVOPS 1
+### Requiere la extensión "REST Client" de VS Code.
+### Haz clic en "Send Request" encima de cada petición, EN ORDEN.
+### ============================================================
+
+### 0. Salud de los 4 servicios
+GET http://localhost:8001/health
+###
+GET http://localhost:8002/health
+###
+GET http://localhost:8003/health
+###
+GET http://localhost:8004/health
+
+### 1. Registrar usuario
+POST http://localhost:8001/register
+Content-Type: application/json
+
+{ "email": "ana@test.com", "password": "1234" }
+
+### 2. Login (devuelve un token guardado en Redis)
+# @name login
+POST http://localhost:8001/login
+Content-Type: application/json
+
+{ "email": "ana@test.com", "password": "1234" }
+
+### 3. Validar el token recibido
+GET http://localhost:8001/validate/{{login.response.body.token}}
+
+### 4. Crear producto
+POST http://localhost:8002/productos
+Content-Type: application/json
+
+{ "nombre": "Laptop", "precio": 5500, "stock": 10 }
+
+### 5. Listar productos (ejecútalo 2 veces: la 2.ª dice "origen": "cache")
+GET http://localhost:8002/productos
+
+### 6. Crear pedido (pedidos le pregunta el precio a catálogo)
+POST http://localhost:8003/pedidos
+Content-Type: application/json
+
+{ "usuario_id": 1, "producto_id": 1, "cantidad": 2 }
+
+### 7. Pagar el pedido (pagos lo marca como PAGADO)
+POST http://localhost:8004/pagos
+Content-Type: application/json
+
+{ "pedido_id": 1, "monto": 11000 }
+
+### 8. Ver pedidos (el estado debe ser PAGADO)
+GET http://localhost:8003/pedidos
+
+### 9. Ver pagos
+GET http://localhost:8004/pagos

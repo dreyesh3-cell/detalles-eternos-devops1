@@ -1,0 +1,10 @@
+﻿# Fecha: 2026-09-22 23:48:51
+# Comando: docker compose ps
+
+NAME               IMAGE                     COMMAND                  SERVICE    CREATED          STATUS                    PORTS
+devops1-auth       devops1/auth:latest       "uvicorn main:app --…"   auth       10 minutes ago   Up 10 minutes (healthy)   0.0.0.0:8001->8001/tcp, [::]:8001->8001/tcp
+devops1-catalogo   devops1/catalogo:latest   "uvicorn main:app --…"   catalogo   10 minutes ago   Up 10 minutes (healthy)   0.0.0.0:8002->8002/tcp, [::]:8002->8002/tcp
+devops1-pagos      devops1/pagos:latest      "uvicorn main:app --…"   pagos      10 minutes ago   Up 10 minutes (healthy)   0.0.0.0:8004->8004/tcp, [::]:8004->8004/tcp
+devops1-pedidos    devops1/pedidos:latest    "uvicorn main:app --…"   pedidos    10 minutes ago   Up 10 minutes (healthy)   0.0.0.0:8003->8003/tcp, [::]:8003->8003/tcp
+devops1-postgres   postgres:16-alpine        "docker-entrypoint.s…"   postgres   10 minutes ago   Up 10 minutes (healthy)   0.0.0.0:5432->5432/tcp, [::]:5432->5432/tcp
+devops1-redis      redis:7-alpine            "docker-entrypoint.s…"   redis      10 minutes ago   Up 10 minutes (healthy)   0.0.0.0:6379->6379/tcp, [::]:6379->6379/tcp

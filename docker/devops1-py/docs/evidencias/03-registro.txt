@@ -1,0 +1,10 @@
+﻿# Fecha: 2026-09-22 23:48:51
+# Comando: curl -i -X POST http://localhost:8001/register -H 'Content-Type: application/json' -d '{ "email": "maria234852@test.com", "password": "1234" }'
+
+HTTP/1.1 201 Created
+date: Wed, 23 Sep 2026 05:48:51 GMT
+server: uvicorn
+content-length: 39
+content-type: application/json
+
+{"id":3,"email":"maria234852@test.com"}

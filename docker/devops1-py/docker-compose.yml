@@ -1,0 +1,117 @@
+# Proyecto DEVOPS 1 - Arquitectura de microservicios
+# Uso:  cp .env.example .env  &&  docker compose up -d --build
+name: devops1
+
+x-servicio-base: &servicio-base
+  restart: unless-stopped
+  networks: [backend]
+  depends_on:
+    postgres:
+      condition: service_healthy
+    redis:
+      condition: service_healthy
+
+services:
+  # ------------------ Infraestructura ------------------
+  postgres:
+    image: postgres:16-alpine
+    container_name: devops1-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-devops}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-devops123}
+      POSTGRES_DB: ${POSTGRES_DB:-postgres}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./docker/postgres/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    ports:
+      - "5432:5432"
+    networks: [backend]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-devops}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:7-alpine
+    container_name: devops1-redis
+    restart: unless-stopped
+    command: ["redis-server", "--requirepass", "${REDIS_PASSWORD:-redis123}", "--appendonly", "yes"]
+    volumes:
+      - redisdata:/data
+    ports:
+      - "6379:6379"
+    networks: [backend]
+    healthcheck:
+      test: ["CMD", "redis-cli", "-a", "${REDIS_PASSWORD:-redis123}", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # ------------------ Microservicios ------------------
+  auth:
+    <<: *servicio-base
+    build:
+      context: .
+      dockerfile: docker/auth/Dockerfile
+    image: devops1/auth:latest
+    container_name: devops1-auth
+    environment:
+      SERVICE_NAME: auth
+      DATABASE_URL: postgres://${POSTGRES_USER:-devops}:${POSTGRES_PASSWORD:-devops123}@postgres:5432/auth_db
+      REDIS_URL: redis://:${REDIS_PASSWORD:-redis123}@redis:6379/0
+    ports:
+      - "8001:8001"
+
+  catalogo:
+    <<: *servicio-base
+    build:
+      context: .
+      dockerfile: docker/catalogo/Dockerfile
+    image: devops1/catalogo:latest
+    container_name: devops1-catalogo
+    environment:
+      SERVICE_NAME: catalogo
+      DATABASE_URL: postgres://${POSTGRES_USER:-devops}:${POSTGRES_PASSWORD:-devops123}@postgres:5432/catalogo_db
+      REDIS_URL: redis://:${REDIS_PASSWORD:-redis123}@redis:6379/1
+    ports:
+      - "8002:8002"
+
+  pedidos:
+    <<: *servicio-base
+    build:
+      context: .
+      dockerfile: docker/pedidos/Dockerfile
+    image: devops1/pedidos:latest
+    container_name: devops1-pedidos
+    environment:
+      SERVICE_NAME: pedidos
+      DATABASE_URL: postgres://${POSTGRES_USER:-devops}:${POSTGRES_PASSWORD:-devops123}@postgres:5432/pedidos_db
+      REDIS_URL: redis://:${REDIS_PASSWORD:-redis123}@redis:6379/2
+      CATALOGO_URL: http://catalogo:8002
+    ports:
+      - "8003:8003"
+
+  pagos:
+    <<: *servicio-base
+    build:
+      context: .
+      dockerfile: docker/pagos/Dockerfile
+    image: devops1/pagos:latest
+    container_name: devops1-pagos
+    environment:
+      SERVICE_NAME: pagos
+      DATABASE_URL: postgres://${POSTGRES_USER:-devops}:${POSTGRES_PASSWORD:-devops123}@postgres:5432/pagos_db
+      REDIS_URL: redis://:${REDIS_PASSWORD:-redis123}@redis:6379/3
+      PEDIDOS_URL: http://pedidos:8003
+    ports:
+      - "8004:8004"
+
+networks:
+  backend:
+    driver: bridge
+
+volumes:
+  pgdata:
+  redisdata:

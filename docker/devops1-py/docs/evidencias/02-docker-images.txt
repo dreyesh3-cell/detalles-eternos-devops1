@@ -1,0 +1,10 @@
+﻿# Fecha: 2026-09-22 23:48:51
+# Comando: docker images
+
+IMAGE                     ID             DISK USAGE   CONTENT SIZE   EXTRA
+devops1/auth:latest       54f462390a1e        248MB         59.6MB   U    
+devops1/catalogo:latest   068a0410cb1f        248MB         59.6MB   U    
+devops1/pagos:latest      c29e25122567        248MB         59.6MB   U    
+devops1/pedidos:latest    486fe97bb817        248MB         59.6MB   U    
+postgres:16-alpine        721873c34ceb        420MB          117MB   U    
+redis:7-alpine            858f009f9709       57.8MB         16.7MB   U    
