@@ -1,0 +1,36 @@
+# ---------- Variables de entorno (contraseñas) ----------
+.env
+.env.*
+!.env.example
+
+# ---------- Python ----------
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+build/
+dist/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# ---------- Entornos virtuales ----------
+.venv/
+venv/
+env/
+
+# ---------- Docker ----------
+docker-compose.override.yml
+*.log
+
+# ---------- Editores / sistema operativo ----------
+# Se conservan tasks.json y extensions.json porque forman parte del proyecto
+.vscode/*
+!.vscode/tasks.json
+!.vscode/extensions.json
+.idea/
+.DS_Store
+Thumbs.db
+desktop.ini
