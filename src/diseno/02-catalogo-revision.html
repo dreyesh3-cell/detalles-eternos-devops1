@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="es-GT">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Revisión de diseño · Catálogo – Detalles Eternos GT</title>
+<style>
+:root { --fondo: #F4F2EF; --tinta: #1F1B1A; --gris: #5E5650; --rosa: #C2185B; }
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: system-ui, -apple-system, "Segoe UI", sans-serif; background: var(--fondo); color: var(--tinta); line-height: 1.5; padding: 28px 16px 48px; }
+header { max-width: 1500px; margin: 0 auto 24px; }
+h1 { font-size: clamp(1.4rem, 3vw, 2rem); }
+header p { color: var(--gris); max-width: 80ch; }
+.vistas { display: flex; gap: 28px; align-items: flex-start; justify-content: center; flex-wrap: wrap; max-width: 1500px; margin: 0 auto; }
+.vista h2 { font-size: 1rem; margin-bottom: 10px; }
+.vista h2 span { color: var(--gris); font-weight: 400; }
+.telefono { width: 410px; max-width: 100%; border: 10px solid var(--tinta); border-radius: 40px; overflow: hidden; background: #fff; box-shadow: 0 18px 40px rgba(0,0,0,.18); }
+.telefono iframe { display: block; width: 390px; max-width: 100%; height: 800px; border: 0; }
+.monitor { width: calc(1280px * .6 + 20px); max-width: 100%; border: 10px solid var(--tinta); border-radius: 14px; overflow: hidden; background: #fff; box-shadow: 0 18px 40px rgba(0,0,0,.18); }
+.monitor .escala { width: calc(1280px * .6); height: calc(1330px * .6); overflow: hidden; }
+.monitor iframe { width: 1280px; height: 1330px; border: 0; transform: scale(.6); transform-origin: 0 0; }
+.notas { max-width: 1500px; margin: 32px auto 0; display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
+.notas article { background: #fff; border-radius: 14px; padding: 16px; border-left: 4px solid var(--rosa); }
+.notas h3 { font-size: .95rem; margin-bottom: 4px; }
+.notas p, .notas li { font-size: .88rem; color: var(--gris); }
+.notas ul { padding-left: 18px; }
+a { color: #2B3A8C; font-weight: 700; }
+</style>
+</head>
+<body>
+<header>
+  <h1>Pantalla 2 · Catálogo — revisión de diseño</h1>
+  <p>Estilo: <strong>Fiesta Artesanal</strong>. Las vistas se pueden desplazar con la rueda del mouse. <a href="02-catalogo.html">Abrir la página sola</a> · <a href="01-inicio-revision.html">Ver Inicio</a></p>
+</header>
+
+<div class="vistas">
+  <section class="vista">
+    <h2>Celular <span>· resultados</span></h2>
+    <div class="telefono"><iframe src="02-catalogo.html" title="Catálogo en celular"></iframe></div>
+  </section>
+  <section class="vista">
+    <h2>Celular <span>· panel de filtros abierto</span></h2>
+    <div class="telefono"><iframe src="02-catalogo.html#filtros" title="Catálogo en celular con filtros abiertos"></iframe></div>
+  </section>
+  <section class="vista">
+    <h2>Escritorio <span>· 1280 px (vista reducida)</span></h2>
+    <div class="monitor"><div class="escala"><iframe src="02-catalogo.html" title="Catálogo en escritorio"></iframe></div></div>
+  </section>
+</div>
+
+<div class="notas">
+  <article>
+    <h3>Filtros (RF-03 y RF-09)</h3>
+    <ul>
+      <li>Categoría, con la cantidad de productos de cada una</li>
+      <li>Precio: mínimo y máximo, más rangos rápidos</li>
+      <li>Solo productos disponibles</li>
+      <li>Se puede enviar a todo el país (excluye perecederos y líquidos)</li>
+      <li>Ordenar: más vendidos, precio, más nuevos, nombre</li>
+    </ul>
+  </article>
+  <article>
+    <h3>Celular y escritorio</h3>
+    <p>En celular, los filtros se abren en un panel desde abajo con "Limpiar" y "Ver 248 productos", y hay chips de categoría para cambiar rápido. En escritorio, los filtros quedan fijos a la izquierda y los productos van en 3 columnas.</p>
+  </article>
+  <article>
+    <h3>Escala (100 a 10,000 productos)</h3>
+    <p>12 productos por página con paginación numerada. El total ("248 productos") se actualiza con cada filtro y se anuncia a lectores de pantalla.</p>
+  </article>
+  <article>
+    <h3>Reglas de negocio</h3>
+    <p>RN-01: "Quedan 3" y "Agotado" con botón "Avisarme" en lugar de "Agregar". RN-02 y RN-03: ícono sobre la foto y aviso corto; la leyenda al final explica cada ícono.</p>
+  </article>
+</div>
+</body>
+</html>
