@@ -9,8 +9,18 @@ pool:
 steps:
   - checkout: self
 
-  - script: docker compose -f docker-compose.yml config --quiet
+  # El docker-compose.yml está dentro de la carpeta docker/
+  - script: docker compose -f docker/docker-compose.yml config --quiet
     displayName: Validar Docker Compose
 
-  - script: docker compose -f docker-compose.yml build
-    displayName: Construir servicios
+  # Construye la imagen del sitio web
+  - script: docker build -t devops1/frontend:$(Build.BuildId) frontend
+    displayName: Construir imagen del frontend
+
+  # Levanta el sitio y verifica que responde
+  - script: |
+      docker run -d --name frontend-prueba -p 8080:80 devops1/frontend:$(Build.BuildId)
+      sleep 5
+      curl -fsS http://localhost:8080/ > /dev/null && echo "El sitio responde correctamente"
+      docker rm -f frontend-prueba
+    displayName: Probar que el sitio responde

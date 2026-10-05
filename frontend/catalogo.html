@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="es-GT">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Catálogo – Detalles Eternos GT</title>
+<meta name="description" content="Catálogo de Detalles Eternos GT: dulces mexicanos, café, belleza, carteras, limpieza y canastas de regalo en quetzales.">
+<meta name="theme-color" content="#C2185B">
+<link rel="icon" href="img/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,800&family=Nunito+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/estilos.css">
+<script src="js/config.js" defer></script>
+<script src="js/datos-demo.js" defer></script>
+<script src="js/app.js" defer></script>
+<script src="js/paginas/catalogo.js" defer></script>
+</head>
+<body data-pagina="catalogo">
+<main id="contenido" class="contenedor">
+  <nav class="migas" aria-label="Ruta de navegación">
+    <ol><li><a href="index.html">Inicio</a></li><li aria-current="page">Catálogo</li></ol>
+  </nav>
+
+  <div class="encabezado">
+    <h1 id="titulo-catalogo">Catálogo</h1>
+    <p>Productos mexicanos en existencia en nuestra tienda de zona 18. Las existencias se actualizan con la tienda física.</p>
+    <div class="franja-huipil franja-huipil--fina" aria-hidden="true"></div>
+  </div>
+
+  <nav class="chips-categorias" id="chips" aria-label="Categorías"></nav>
+
+  <div class="catalogo">
+    <!-- Filtros: hoja inferior en celular, columna fija en escritorio -->
+    <aside class="panel-filtros" id="filtros" aria-labelledby="t-filtros">
+      <button class="fondo" type="button" data-cerrar-filtros aria-label="Cerrar filtros" tabindex="-1"></button>
+      <form class="hoja" id="form-filtros" role="dialog" aria-labelledby="t-filtros">
+        <div class="hoja-cabecera">
+          <h2 id="t-filtros">Filtros</h2>
+          <button class="btn-icono" type="button" data-cerrar-filtros aria-label="Cerrar filtros"><svg class="ico" aria-hidden="true"><use href="#i-cerrar"/></svg></button>
+        </div>
+        <div class="hoja-cuerpo">
+          <fieldset class="grupo">
+            <legend>Categoría</legend>
+            <div id="lista-categorias"></div>
+          </fieldset>
+          <fieldset class="grupo">
+            <legend>Precio</legend>
+            <div class="rango">
+              <div><label for="f-min">Mínimo</label><div class="campo-q"><span aria-hidden="true">Q</span><input id="f-min" name="min" type="number" inputmode="numeric" min="0" placeholder="0"></div></div>
+              <span class="guion" aria-hidden="true">–</span>
+              <div><label for="f-max">Máximo</label><div class="campo-q"><span aria-hidden="true">Q</span><input id="f-max" name="max" type="number" inputmode="numeric" min="0" placeholder="—"></div></div>
+            </div>
+            <div class="precios-rapidos" role="group" aria-label="Rangos de precio rápidos">
+              <button type="button" data-rango="0-100">Menos de Q100</button>
+              <button type="button" data-rango="100-300">Q100 – Q300</button>
+              <button type="button" data-rango="300-600">Q300 – Q600</button>
+              <button type="button" data-rango="600-">Más de Q600</button>
+            </div>
+          </fieldset>
+          <div class="grupo">
+            <h3>Disponibilidad</h3>
+            <label class="interruptor"><input type="checkbox" name="disponibles"><span class="pista" aria-hidden="true"></span><span><strong>Solo productos disponibles</strong><small>Oculta los productos agotados</small></span></label>
+          </div>
+          <div class="grupo">
+            <h3>Entrega</h3>
+            <label class="interruptor"><input type="checkbox" name="envio_nacional"><span class="pista" aria-hidden="true"></span><span><strong>Se puede enviar a todo el país</strong><small>Oculta perecederos (dulces y café) y líquidos o aerosoles con restricción de envío</small></span></label>
+          </div>
+        </div>
+        <div class="hoja-pie">
+          <button class="btn btn-borde" type="button" id="limpiar-hoja">Limpiar</button>
+          <button class="btn btn-primario" type="button" data-cerrar-filtros id="ver-resultados">Ver productos</button>
+        </div>
+      </form>
+    </aside>
+
+    <section aria-labelledby="t-resultados">
+      <h2 id="t-resultados" class="sr-only">Resultados</h2>
+      <div class="herramientas">
+        <button class="btn-filtros" type="button" id="abrir-filtros" aria-controls="filtros" aria-expanded="false"><svg class="ico" aria-hidden="true"><use href="#i-filtro"/></svg>Filtros <span class="num" id="num-filtros"></span></button>
+        <div class="ordenar">
+          <label for="orden">Ordenar</label>
+          <select id="orden" class="selector">
+            <option value="vendidos">Más vendidos</option>
+            <option value="precio_asc">Menor precio</option>
+            <option value="precio_desc">Mayor precio</option>
+            <option value="nuevos">Más nuevos</option>
+            <option value="nombre">Nombre (A–Z)</option>
+          </select>
+        </div>
+      </div>
+      <div class="activos" id="activos"></div>
+      <div class="productos" id="productos" aria-live="polite"></div>
+      <p class="leyenda">
+        <span><svg class="ico" style="color:#8A5A00" aria-hidden="true"><use href="#i-reloj"/></svg>Perecedero: solo recogida en tienda o exprés local</span>
+        <span><svg class="ico" style="color:#2B3A8C" aria-hidden="true"><use href="#i-gota"/></svg>Líquido o aerosol: envío departamental con restricciones</span>
+      </p>
+      <nav class="paginacion" id="paginacion" aria-label="Paginación"></nav>
+    </section>
+  </div>
+</main>
+</body>
+</html>
