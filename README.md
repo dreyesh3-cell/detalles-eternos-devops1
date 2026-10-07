@@ -25,16 +25,37 @@ el pedido como `PAGADO`).
 
 ```
                  ┌────────┐   ┌──────────┐   ┌─────────┐   ┌───────┐
-  Cliente ─────► │  auth  │   │ catalogo │◄──│ pedidos │◄──│ pagos │
-                 └───┬────┘   └────┬─────┘   └────┬────┘   └───┬───┘
-                     │             │              │            │
-               ┌─────┴─────────────┴──────────────┴────────────┴─────┐
-               │        PostgreSQL (una base por servicio)           │
-               │        Redis (sesiones, caché y pub/sub)            │
-               └─────────────────────────────────────────────────────┘
+ Cliente ─────► │  auth  │   │  catalogo │◄──│ pedidos │◄──│ pagos │
+                 └───┬────┘   └─────┬─────┘   └────┬────┘   └───┬───┘
+                     │               │              │            │
+                     │               │              │            │
+                     └───────────────┴──────────────┴────────────┘
+                                     │
+                     ┌───────────────┴───────────────┐
+                     │                               │
+               ┌─────▼─────────────┐       ┌─────────▼────────┐
+               │    PostgreSQL     │       │      Redis       │
+               │                   │       │                  │
+               │ auth_db           │       │ Caché            │
+               │ catalogo_db       │       │ Datos temporales │
+               │ pedidos_db        │       │                  │
+               │ pagos_db          │       │                  │
+               └───────────────────┘       └──────────────────┘
 ```
 
-- **Tecnología:** Python 3.12, FastAPI, Uvicorn, psycopg2, redis-py y httpx.
+- **Tecnología:** 
+- El backend utiliza las siguientes tecnologías:
+
+.NET 8
+ASP.NET Core Web API
+Entity Framework Core
+Npgsql
+PostgreSQL 16
+Redis 7
+Docker
+Docker Compose
+Swagger / OpenAPI
+
 - **Una base de datos por microservicio:** un solo servidor PostgreSQL con 4 bases
   independientes, creadas por `docker/postgres/init.sql`.
 - **Comunicación entre servicios:** por HTTP dentro de la red interna de Docker
@@ -127,24 +148,84 @@ docker compose down -v         # detener y borrar los datos
 ## Estructura del proyecto
 
 ```
-devops1-py/
-├── docker-compose.yml       # Orquestación de los 6 contenedores
-├── .env.example             # Plantilla de variables de entorno
-├── pruebas.http             # Pruebas de extremo a extremo
-├── src/                     # Código de cada microservicio
-│   ├── auth/
-│   ├── catalogo/
-│   ├── pedidos/
-│   └── pagos/               # main.py, db.py y requirements.txt en cada uno
+detalles-eternos-devops1/
+│
+├── backend/
+│   ├── ApiAuth/
+│   │   ├── Controllers/
+│   │   ├── Data/
+│   │   ├── Migrations/
+│   │   ├── Models/
+│   │   ├── Services/
+│   │   ├── Properties/
+│   │   ├── Dockerfile
+│   │   ├── Program.cs
+│   │   └── appsettings.Development.json
+│   │
+│   ├── ApiCatalogo/
+│   │   ├── Controllers/
+│   │   ├── Data/
+│   │   ├── Migrations/
+│   │   ├── Models/
+│   │   ├── Properties/
+│   │   ├── uploads/
+│   │   ├── Dockerfile
+│   │   └── Program.cs
+│   │
+│   ├── ApiPedidos/
+│   │   ├── Configuration/
+│   │   ├── Controllers/
+│   │   ├── DTOS/
+│   │   ├── Data/
+│   │   ├── Migrations/
+│   │   ├── Models/
+│   │   ├── Services/
+│   │   ├── Properties/
+│   │   ├── Dockerfile
+│   │   └── Program.cs
+│   │
+│   └── ApiPagos/
+│       ├── Controllers/
+│       ├── DTOS/
+│       ├── Data/
+│       ├── Migrations/
+│       ├── Models/
+│       ├── Properties/
+│       ├── Dockerfile
+│       └── Program.cs
+│
 ├── docker/
-│   ├── auth/ catalogo/ pedidos/ pagos/   # Dockerfile de cada servicio
-│   └── postgres/init.sql    # Crea las 4 bases de datos
+│   ├── auth/
+│   │   └── Dockerfile
+│   ├── catalogo/
+│   │   └── Dockerfile
+│   ├── pedidos/
+│   │   └── Dockerfile
+│   ├── pagos/
+│   │   └── Dockerfile
+│   └── postgres/
+│       └── init.sql
+│
 ├── frontend/
-│   └── diseno/              # Diseños aprobados de cada pantalla (HTML + CSS)
-└── docs/
-    ├── docker.md            # Decisiones técnicas de Docker
-    ├── COMO_PROBAR_EN_VSCODE.md
-    └── evidencias/          # Salidas de docker compose ps, docker images y pruebas
+│   ├── js/
+│   ├── pruebas/
+│   ├── diseno/
+│   ├── Dockerfile
+│   ├── nginx.conf
+│   └── README.md
+│
+├── docs/
+│   ├── docker.md
+│   ├── COMO_PROBAR_EN_VSCODE.md
+│   ├── evidencias.pdf
+│   └── evidencias/
+│
+├── docker-compose.yml
+├── .env.example
+├── .gitignore
+├── .dockerignore
+├── pruebas.http
+└── README.md
 ```
 
 ## Solución de problemas
