@@ -76,6 +76,19 @@ Abre http://localhost:8080
 └── diseno/                    Diseños aprobados (Inicio y Catálogo)
 ```
 
+## Pruebas automáticas (pytest)
+
+69 pruebas en `pruebas/`: carga de las 14 páginas, reglas de negocio RN-01 a RN-04, precios mayoristas, puntos,
+catálogo, carrito, cuentas, compra completa y panel de administración. Usan el Microsoft Edge instalado.
+
+```bash
+cd pruebas
+pip install -r requirements.txt
+pytest --base http://localhost:8080 --html=../evidencias/reporte-pytest.html --self-contained-html
+```
+
+Último resultado: **69 de 69 pruebas aprobadas**. Reporte: [evidencias/reporte-pytest.html](evidencias/reporte-pytest.html).
+
 ## Datos pendientes del negocio
 
 Los textos entre corchetes se reemplazan en `js/config.js` y en las páginas:

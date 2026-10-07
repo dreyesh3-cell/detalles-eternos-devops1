@@ -12,9 +12,21 @@ DE.iniciar(async () => {
     }
     if (!cont.children.length) cont.innerHTML = DE.ui.cargando('Revisando precios y existencias…');
 
-    let c;
-    try { c = await DE.api.pedidos.cotizar({ items }); }
-    catch (e) { cont.innerHTML = DE.ui.error(e.message); return; }
+   let c;
+	try {
+	  c = await DE.api.pedidos.cotizar({ items });
+	} catch (e) {
+	  if (e && e.estado === 401) {
+		DE.sesion.cerrar();
+		location.href = 'login.html?volver=' + encodeURIComponent(
+		  location.pathname.split('/').pop() + location.search
+		);
+		return;
+	  }
+
+	  cont.innerHTML = DE.ui.error(e.message);
+	  return;
+	}
 
     // Si un producto ya no existe en el catálogo, se quita del carrito.
     const vigentes = new Set(c.lineas.map((l) => l.producto_id));

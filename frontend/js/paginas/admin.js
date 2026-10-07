@@ -102,8 +102,24 @@ DE.iniciar(async () => {
     DE.$('#error-producto').innerHTML = '';
     DE.$$('.error', formP).forEach((x) => { x.textContent = ''; });
     DE.$('#t-dialogo').textContent = p ? 'Editar producto' : 'Nuevo producto';
-    const v = p || { id: '', nombre: '', categoria: 'dulceria', tipo: 'normal', descripcion: '', precio: '', stock: 0, precio_mayorista: '', minimo_mayorista: 12, peso_lb: 1, imagen_url: '', destacado: false };
-    ['id', 'nombre', 'categoria', 'tipo', 'descripcion', 'precio', 'stock', 'minimo_mayorista', 'peso_lb', 'imagen_url'].forEach((k) => { formP.elements[k].value = v[k] ?? ''; });
+    const v = p || {
+	  id: '',
+	  nombre: '',
+	  categoria: 'dulceria',
+	  tipo: 'normal',
+	  descripcion: '',
+	  precio: '',
+	  stock: 0,
+	  precio_mayorista: '',
+	  minimo_mayorista: 12,
+	  peso_lb: 1,
+	  destacado: false
+	};
+
+	['id', 'nombre', 'categoria', 'tipo', 'descripcion', 'precio', 'stock', 'minimo_mayorista', 'peso_lb']
+	  .forEach((k) => {
+		formP.elements[k].value = v[k] ?? '';
+	  });
     formP.precio_mayorista.value = v.precio_mayorista ?? '';
     formP.destacado.checked = !!v.destacado;
     dialogo.showModal();
@@ -128,8 +144,11 @@ DE.iniciar(async () => {
       nombre: f.nombre.value.trim(), categoria: f.categoria.value, tipo: f.tipo.value, descripcion: f.descripcion.value.trim(),
       precio: num(f.precio.value), stock: num(f.stock.value), precio_mayorista: f.precio_mayorista.value ? num(f.precio_mayorista.value) : null,
       minimo_mayorista: Math.max(1, parseInt(f.minimo_mayorista.value, 10) || 1), peso_lb: num(f.peso_lb.value),
-      imagen_url: f.imagen_url.value.trim(), destacado: f.destacado.checked,
+      destacado: f.destacado.checked,
     };
+	if (f.imagen.files.length > 0) {
+		datos.imagen = f.imagen.files[0];
+		}
     if (f.id.value) datos.id = Number(f.id.value);
     const b = DE.$('#guardar-producto'); b.disabled = true;
     try {
