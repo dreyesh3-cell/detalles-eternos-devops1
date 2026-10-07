@@ -20,6 +20,7 @@ htmlcov/
 .venv/
 venv/
 env/
+.env.example
 
 # ---------- Docker ----------
 docker-compose.override.yml
