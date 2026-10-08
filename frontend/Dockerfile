@@ -1,6 +1,6 @@
 # Imagen del sitio web (nginx + páginas estáticas)
 # Construir:  docker build -t devops1/frontend frontend
-# Probar:     docker run --rm -p 8080:80 devops1/frontend   →  http://localhost:8080
+# Probar:     docker run -d --name devops1-frontend --network devops1_backend -p 8080:80 devops1/frontend:latest→  http://localhost:8080
 FROM nginx:1.27-alpine
 
 COPY nginx.conf        /etc/nginx/conf.d/default.conf

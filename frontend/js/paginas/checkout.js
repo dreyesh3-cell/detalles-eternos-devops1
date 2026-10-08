@@ -61,7 +61,18 @@ DE.iniciar(async () => {
     const d = leer(), miTurno = ++turno;
     let c;
     try { c = await DE.api.pedidos.cotizar(d); }
-    catch (e) { DE.$('#resumen-cuerpo').innerHTML = DE.ui.error(e.message); return; }
+		catch (e) {
+	  if (e && e.estado === 401) {
+		DE.sesion.cerrar();
+		location.href = 'login.html?volver=' + encodeURIComponent(
+		  location.pathname.split('/').pop() + location.search
+		);
+		return;
+	  }
+
+	  DE.$('#resumen-cuerpo').innerHTML = DE.ui.error(e.message);
+	  return;
+	}
     if (miTurno !== turno) return;
     ultima = c;
 

@@ -446,9 +446,15 @@
     const cabeceras = {};
     const s = DE.sesion.obtener();
     if (s) cabeceras.Authorization = 'Bearer ' + s.token;
-    if (datos !== undefined) cabeceras['Content-Type'] = 'application/json';
+    if (datos !== undefined && !(datos instanceof FormData)) {
+		cabeceras['Content-Type'] = 'application/json';
+	}
     let resp;
-    try { resp = await fetch(url, { method: metodo, headers: cabeceras, body: datos !== undefined ? JSON.stringify(datos) : undefined }); }
+    try { resp = await fetch(url, { method: metodo, headers: cabeceras, body: datos instanceof FormData
+	  ? datos
+	  : datos !== undefined
+		? JSON.stringify(datos)
+		: undefined }); }
     catch { throw new ErrorTienda('No pudimos conectarnos con la tienda. Revisa tu conexión e intenta de nuevo.', 0); }
     let cuerpo = null;
     try { cuerpo = await resp.json(); } catch { /* sin cuerpo */ }
@@ -482,7 +488,42 @@
           return Object.keys(DE.CATEGORIAS).map((c) => ({ categoria: c, total: r.data.filter((p) => p.categoria === c).length }));
         }
       },
-      guardar(datos) { return datos.id ? http(`/catalogo/productos/${datos.id}`, { metodo: 'PUT', datos }) : http('/catalogo/productos', { metodo: 'POST', datos }); },
+      guardar(datos) {
+		  const formData = new FormData();
+
+		  formData.append('nombre', datos.nombre);
+		  formData.append('categoria', datos.categoria);
+		  formData.append('tipo', datos.tipo);
+		  formData.append('descripcion', datos.descripcion ?? '');
+		  formData.append('precio', datos.precio);
+		  formData.append('stock', datos.stock);
+		  formData.append('precio_mayorista', datos.precio_mayorista ?? 0);
+		  formData.append('minimo_mayorista', datos.minimo_mayorista);
+		  formData.append('peso_lb', datos.peso_lb);
+		  formData.append('destacado', datos.destacado);
+
+		  if (datos.id) {
+			if (datos.imagen) {
+			  formData.append('imagen', datos.imagen);
+			}
+
+			return http(`/catalogo/productos/${datos.id}`, {
+			  metodo: 'PUT',
+			  datos: formData
+			});
+		  }
+
+		  formData.append('ventas', 0);
+
+		  if (datos.imagen) {
+			formData.append('imagen', datos.imagen);
+		  }
+
+		  return http('/catalogo/productos', {
+			metodo: 'POST',
+			datos: formData
+		  });
+		},
       eliminar(id) { return http(`/catalogo/productos/${id}`, { metodo: 'DELETE' }); },
       ajustarStock(id, stock) { return http(`/catalogo/productos/${id}/stock`, { metodo: 'PATCH', datos: { stock } }); },
       alertas() { return http('/catalogo/inventario/alertas'); },
@@ -490,12 +531,11 @@
     auth: {
       registrar(datos) { return http('/auth/register', { metodo: 'POST', datos }); },
       async iniciarSesion(email, password) {
-        const r = await http('/auth/login', { metodo: 'POST', datos: { email, password } });
-        if (r.usuario) return r;
-        // El backend actual solo devuelve el token: se completa el perfil con /validate.
-        const v = await http(`/auth/validate/${r.token}`);
-        return { token: r.token, usuario: { id: v.userId, email, nombre: email.split('@')[0], rol: v.rol || 'cliente', puntos: 0, telefono: '', solicita_mayorista: false } };
-      },
+	  return await http('/auth/login', {
+		metodo: 'POST',
+		datos: { email, password }
+	  });
+	},
       async cerrarSesion() { try { await http('/auth/logout', { metodo: 'POST' }); } catch { /* opcional en el backend */ } },
       async perfil() {
         try { return await http('/auth/me'); }
@@ -504,9 +544,17 @@
       solicitarMayorista() { return http('/auth/me/solicitar-mayorista', { metodo: 'POST' }); },
     },
     usuarios: {
-      listar(f) { return http('/auth/usuarios', { parametros: f }); },
-      cambiarRol(id, rol) { return http(`/auth/usuarios/${id}`, { metodo: 'PATCH', datos: { rol } }); },
-    },
+	  listar(f) {
+		return http('/auth/usuarios', { parametros: f })
+		  .then((r) => Array.isArray(r) ? r : r.data);
+	  },
+	  cambiarRol(id, rol) {
+		return http(`/auth/usuarios/${id}`, {
+		  metodo: 'PATCH',
+		  datos: { rol }
+		});
+	  },
+	},
     pedidos: {
       async cotizar(datos) {
         try { return await http('/pedidos/pedidos/cotizar', { metodo: 'POST', datos }); }

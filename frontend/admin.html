@@ -99,7 +99,11 @@
           <div class="campo"><label for="p-mayorista">Precio mayorista (Q) <span class="opcional">(opcional)</span></label><input id="p-mayorista" name="precio_mayorista" type="number" min="0" step="0.01" inputmode="decimal"><p class="error" id="error-precio_mayorista"></p></div>
           <div class="campo"><label for="p-minimo">Mínimo para precio mayorista</label><input id="p-minimo" name="minimo_mayorista" type="number" min="1" step="1" value="12" inputmode="numeric"></div>
           <div class="campo"><label for="p-peso">Peso aproximado (lb)</label><input id="p-peso" name="peso_lb" type="number" min="0.1" step="0.1" value="1" inputmode="decimal"><p class="ayuda">Sirve para calcular el envío.</p><p class="error" id="error-peso_lb"></p></div>
-          <div class="campo"><label for="p-imagen">Foto (dirección web) <span class="opcional">(opcional)</span></label><input id="p-imagen" name="imagen_url" type="url" placeholder="https://…"></div>
+          <div class="campo">
+		  <label for="p-imagen">Foto del producto</label>
+		  <input id="p-imagen" name="imagen" type="file" accept="image/*">
+		  <p class="ayuda">Selecciona una imagen del producto desde tu computadora.</p>
+		</div>
         </div>
         <label class="casilla"><input type="checkbox" name="destacado"><span>Mostrar en "Lo más pedido" de la página de inicio</span></label>
         <div id="error-producto" role="alert"></div>

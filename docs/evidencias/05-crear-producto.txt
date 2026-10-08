@@ -1,0 +1,10 @@
+﻿# Fecha: 2026-09-29 15:50:04
+# Comando: curl -i -X POST http://localhost:8002/productos -H 'Content-Type: application/json' -d '{ "nombre": "Laptop", "precio": 5500, "stock": 10 }'
+
+HTTP/1.1 201 Created
+date: Tue, 29 Sep 2026 21:50:04 GMT
+server: uvicorn
+content-length: 53
+content-type: application/json
+
+{"id":1,"nombre":"Laptop","precio":5500.0,"stock":10}

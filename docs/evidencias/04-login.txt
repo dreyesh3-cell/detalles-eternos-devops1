@@ -1,0 +1,10 @@
+﻿# Fecha: 2026-09-29 15:50:04
+# Comando: curl -i -X POST http://localhost:8001/login -H 'Content-Type: application/json' -d '{ "email": "ana@test.com", "password": "1234" }'
+
+HTTP/1.1 200 OK
+date: Tue, 29 Sep 2026 21:50:04 GMT
+server: uvicorn
+content-length: 76
+content-type: application/json
+
+{"token":"9ffcd51752943ab4ddf04ebe9a1944fb81e5405b18b0d0df4de7cd5a76d2b97e"}

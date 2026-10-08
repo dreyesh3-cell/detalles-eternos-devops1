@@ -7,7 +7,7 @@ window.DE_CONFIG = {
   /* 'demo' = funciona sin servidor, con datos de ejemplo guardados en el navegador.
      'api'  = usa el backend real (microservicios + base de datos).
      Para conectar la base de datos: cambiar a 'api' y revisar INTEGRACION.md. */
-  MODO: 'demo',
+  MODO: 'api',
 
   /* Dirección base de las APIs. Con el nginx incluido (nginx.conf) basta con '/api'.
      Si las APIs están en otro dominio, poner la URL completa, p. ej. 'https://api.detalleseternos.gt'. */

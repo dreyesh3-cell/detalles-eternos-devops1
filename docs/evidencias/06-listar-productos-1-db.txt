@@ -1,0 +1,10 @@
+﻿# Fecha: 2026-09-29 15:50:04
+# Comando: curl -i -X GET http://localhost:8002/productos
+
+HTTP/1.1 200 OK
+date: Tue, 29 Sep 2026 21:50:04 GMT
+server: uvicorn
+content-length: 78
+content-type: application/json
+
+{"origen":"db","data":[{"id":1,"nombre":"Laptop","precio":5500.0,"stock":10}]}
