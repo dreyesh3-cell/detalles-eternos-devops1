@@ -1,5 +1,6 @@
-﻿using ApiCatalogo.Data;
+using ApiCatalogo.Data;
 using ApiCatalogo.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -163,6 +164,7 @@ public class ProductosController : ControllerBase
         return Ok(producto);
     }
 
+    [Authorize(Roles = "admin")]
     [HttpPost("productos")]
     public async Task<IActionResult> CrearProducto(
     [FromForm] CrearProductoRequest request,
@@ -222,6 +224,7 @@ public class ProductosController : ControllerBase
         return Ok(producto);
     }
 
+    [Authorize(Roles = "admin")]
     [HttpPut("productos/{id:int}")]
     public async Task<IActionResult> ActualizarProducto(
     int id,
@@ -277,6 +280,7 @@ public class ProductosController : ControllerBase
         return Ok(producto);
     }
 
+    [Authorize(Roles = "admin")]
     [HttpPatch("productos/{id:int}/stock")]
     public async Task<IActionResult> ActualizarStock(
     int id,
@@ -312,6 +316,7 @@ public class ProductosController : ControllerBase
         });
     }
 
+    [Authorize(Roles = "admin")]
     [HttpDelete("productos/{id:int}")]
     public async Task<IActionResult> EliminarProducto(int id)
     {
@@ -337,6 +342,7 @@ public class ProductosController : ControllerBase
         });
     }
 
+    [Authorize(Roles = "admin")]
     [HttpGet("inventario/alertas")]
     public async Task<IActionResult> ObtenerAlertasInventario()
     {
